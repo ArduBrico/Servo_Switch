@@ -1,180 +1,65 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#ffffff" />
-  <link rel="icon" href="logo.png" />
-  <title>Servo Switch by ArduBrico</title>
-  
-  <!-- Incluimos la fuente Inter desde Google Fonts para asegurar su visualización -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
-  <!-- Ya no necesitamos enlaces a Font Awesome ni SVG inline para el icono USB -->
-  
-  <style>
-    /* Estilos generales para el cuerpo de la página */
-    body {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      min-height: 100vh;
-      margin: 0;
-      /* Fondo con un degradado radial muy suave y sutil */
-      background: radial-gradient(circle at top left, #ebf5ff, #f8fcff); 
-      
-      font-family: 'Inter', sans-serif; /* Aplicamos la fuente Inter al body también */
-      color: #333; /* Color de texto general predeterminado */
-    }
-
-    /* Estilos para la imagen del logo */
-    img {
-      max-width: 200px;
-      margin-bottom: 30px;
-    }
-
-    /* Estilos para los títulos principales */
-    h1 {
-      color: #1a2d42; /* Azul muy oscuro para un toque profesional */
-      margin-bottom: 10px;
-    }
-
-    /* Estilos para los párrafos de texto */
-    p {
-      color: #34495e; /* Gris-azul oscuro para suavizar el texto */
-      margin-bottom: 30px;
-      max-width: 600px;
-      line-height: 1.5; /* Mejora la legibilidad del texto */
-    }
-
-    /* Ocultamos el botón original de esp-web-install-button para usar nuestro customizado */
-    esp-web-install-button {
-      display: none;
-    }
-
-    /*
-     * CSS para estilizar nuestro nuevo botón personalizado (#custom-install-button).
-     * Este es el botón visible que tendrá el icono y el texto.
-     */
-    #custom-install-button {
-      /* Colores base: degradado para un aspecto profesional y desenfadado */
-      color: #0d47a1; /* Azul profundo para el texto */
-      background: linear-gradient(145deg, #e3f2fd 0%, #bbdefb 100%); /* Degradado suave */
-      
-      /* Sin borde, nos apoyamos en la sombra para la profundidad */
-      border: none; 
-      
-      /* Tipografía */
-      font-family: 'Inter', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 600;
-      
-      /* Espaciado y forma */
-      padding: 0.8rem 1.6rem; /* Relleno generoso */
-      border-radius: 20px; /* Bordes redondeados para un toque moderno y desenfadado */
-      
-      /* Sombra MUY sutil para una ligera profundidad */
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04); 
-      
-      /* Transiciones suaves para todos los cambios de estado */
-      transition: all 0.3s ease-in-out;
-      
-      /* Comportamiento de display para alinear icono y texto */
-      display: inline-flex;
-      align-items: center; /* Alinea verticalmente el icono y el texto */
-      justify-content: center;
-      cursor: pointer;
-      text-decoration: none;
-      outline: none;
-    }
-
-    /* Estilos específicos para la imagen del icono dentro del botón */
-    #custom-install-button img {
-      width: 1.2em; /* Tamaño del icono basado en el tamaño de fuente del botón */
-      height: 1.2em;
-      margin-right: 8px; /* Espacio a la derecha del icono */
-      vertical-align: middle; /* Alinea el icono con el texto */
-      margin-bottom: 0; /* Anula el margin-bottom de la imagen del logo si se aplica globalmente */
-    }
-
-    /* Efectos al pasar el ratón (hover) */
-    #custom-install-button:hover {
-      background: linear-gradient(145deg, #bbdefb 0%, #90caf9 100%); /* Degradado más oscuro en hover */
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); /* Sombra ligeramente más pronunciada */
-      transform: scale(1.02); /* Pequeño efecto de escala */
-    }
-
-    /* Efectos al hacer clic (active) */
-    #custom-install-button:active {
-      background-color: #64b5f6; /* Fondo sólido más oscuro al hacer clic */
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03); /* Sombra más pequeña para efecto de presión */
-      transform: scale(0.98); /* Pequeño efecto de escala inversa */
-    }
-
-    /* Estilo para el enlace del canal de YouTube */
-    a {
-      color: #0d47a1; /* Usamos un azul que combine con el botón */
-      text-decoration: none; /* Quitamos el subrayado por defecto */
-      font-weight: 600; /* Hacemos el texto del enlace más visible */
-      transition: color 0.3s ease; /* Transición suave para el color del enlace */
-    }
-
-    a:hover {
-      color: #0056b3; /* Color más oscuro al pasar el ratón por el enlace */
-      text-decoration: underline; /* Subrayamos al pasar el ratón */
-    }
-  </style>
-  <script type="module" src="https://unpkg.com/esp-web-tools@10.0.0/dist/web/install-button.js?module"></script>
-</head>
-<body>
-  <img src="logo.png" alt="Logo ArduBrico" />
-  <h1>Instalador Servo Switch</h1>
-  <h1>by ArduBrico</h1>
-  <p>
-    Conecta tu ESP8266 por USB y pulsa el botón para instalar el firmware automáticamente.
-  </p>
-
-  <!-- Este es el botón original de esp-web-install-button (ahora oculto) -->
-  <esp-web-install-button id="esp-button" manifest="manifest.json"></esp-web-install-button>
-
-  <!-- Este es nuestro nuevo botón personalizado y visible -->
-  <button id="custom-install-button">
-    <!-- El icono de USB ahora es una imagen local -->
-    <img src="usb.png" alt="Icono USB" 
-    <span>Conectar</span>
-  </button>
-
-  <p>
-    Visita mi canal de Youtube
-    <a href="https://www.youtube.com/@ArduBrico" target="_blank">
-      ArduBrico
-    </a>
-    para más proyectos.
-  </p>
-
-  <script>
-    // Esperamos a que el DOM esté completamente cargado
-    document.addEventListener('DOMContentLoaded', () => {
-      // Obtenemos una referencia a nuestro nuevo botón visible
-      const customButton = document.getElementById('custom-install-button');
-      // Obtenemos una referencia al botón original de esp-web-install-button (el oculto)
-      const espButton = document.getElementById('esp-button');
-
-      // Si ambos botones existen, añadimos un "escuchador" de eventos al botón visible
-      if (customButton && espButton) {
-        customButton.addEventListener('click', () => {
-          // Cuando se haga clic en el botón visible, simulamos un clic en el botón oculto
-          espButton.click();
-          console.log('Botón personalizado clicado, activando esp-web-install-button oculto.');
-        });
-      } else {
-        console.error('No se encontraron los botones necesarios para la funcionalidad.');
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="logo.png" />
+    <title>Servo Switch by ArduBrico</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        min-height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #b3b3b5;
       }
-    });
-  </script>
-</body>
+
+      img {
+        max-width: 200px;
+        margin-bottom: 30px;
+      }
+
+      h1 {
+        color: #000000;
+        margin-bottom: 10px;
+      }
+
+      p {
+        color: #000000;
+        margin-bottom: 30px;
+        max-width: 600px;
+      }
+
+      esp-web-install-button {
+        color: #002244; /* Azul oscuro */
+        background: none;
+        border: none;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+      }
+    </style>
+    <script type="module" src="https://unpkg.com/esp-web-tools@10.0.0/dist/web/install-button.js?module"></script>
+  </head>
+  <body>
+    <img src="logo.png" alt="Logo ArduBrico" />
+    <h1>Instalador Servo Switch</h1>
+    <h1>by ArduBrico</h1>
+    <p>
+      Conecta tu ESP8266 por USB y pulsa el botón para instalar el firmware automáticamente.
+    </p>
+    <esp-web-install-button manifest="manifest.json"></esp-web-install-button>
+<p>
+  Visita mi canal de Youtube
+  <a href="https://www.youtube.com/@ArduBrico" target="_blank" style="color: #002244; text-decoration: underline;">
+    ArduBrico
+  </a>
+  para más proyectos.
+</p>
+  </body>
 </html>
